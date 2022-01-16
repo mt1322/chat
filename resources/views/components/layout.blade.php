@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ $title }}</title>
+    <link rel="stylesheet" href="{{ url('css/style.css') }}">
     <script type="text/javascript" src="js/first.js"></script>
     <link rel="stylesheet" href="{{ url('css/style.css') }}">
 </head>

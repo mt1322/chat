@@ -16,3 +16,15 @@ use App\Http\Controllers\ChatController;
 
 Route::get('/', [ChatController::class, 'index'])
     ->name('index');
+
+Route::post('/post', [ChatController::class, 'store'])
+    ->name('store');
+
+Route::delete('/{message}', [ChatController::class, 'destroy'])
+    ->name('destroy');
+
+// Route::get('/post', [ChatController::class, 'get'])
+    // ->name('show');
+
+// Route::post('/post', [ChatController::class, 'store'])
+    // ->name('post');

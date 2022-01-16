@@ -1,0 +1,70 @@
+ul {
+    list-style-type: none;
+}
+
+.message-list {
+    border: 1px solid #000;
+    border-radius: 4px;
+    display: inline-block;
+    width: 90%;
+    margin-bottom: 10px;
+    /* animation-name: updateMessage;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards; */
+}
+
+.new-message{
+    margin-top: -25px;
+    animation-name: newMessage;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+/* @keyframes updateMessage{
+    0% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(25px);
+    }
+} */
+
+@keyframes newMessage{
+    0% {
+        opacity: 0.2;
+    }
+    25% {
+        border: 1px solid #f00;
+    }
+    50% {
+        border: 1px solid #000;
+    }
+    75% {
+        border: 1px solid #f00;
+    }
+    100% {
+        border: 1px solid #000;
+        opacity: 1;
+        transform: translateY(25px);
+    }
+}
+
+.delete-form {
+    text-align: right;
+}
+
+.delete-btn {
+    display: inline-block;
+}
+
+.user {
+    border: 2px solid #111;
+}
+
+button {
+    cursor: pointer;
+}
