@@ -16,13 +16,25 @@
     <ul>
         @forelse ($postData as $key => $post)
             @if ($add_message && $key === count($postData)-1)
-            <li class="message-list new-message">
+                <li class="message-list new-message">
             @else
-            <li class="message-list">
+                <li class="message-list">
             @endif
                 {{-- {{ var_dump($key); }}
                 {{ var_dump(count($postData)); }} --}}
-                <span class="user">{{ $post->user }}</span> : {{ $post->body }}
+                @if ($editNum-1 === $key)
+                    <span class="user">{{ $post->user }}</span> :
+                    <form medhod="post" action="{{ route('update', $post) }}">
+                        @method('PATCH')
+                        @csrf
+                        <textarea name="body"></textarea>
+                        <button type="submit">編集</button>
+                    </form>
+                @else
+                    <span class="user">{{ $post->user }}</span> : {{ $post->body }}
+                @endif
+                <a href="{{ route('edit', $key) }}"> edit </a>
+
                 <form method="post" action="{{ route('destroy', $post) }}" class="delete-form">
                     @method('DELETE')
                     @csrf

@@ -15,15 +15,19 @@ class ChatController extends Controller
     public function index() {
         $posts = Message::all();
         $add_msg = false;
+        $editNum = 0;
 
-        $add_chk = file_get_contents('message_num.txt');
-        if ($add_chk === 'add') {
+        $str_chk = file_get_contents('message_num.txt');
+        if ($str_chk === 'add') {
             $add_msg = true;
-            file_put_contents('message_num.txt', 'get');
         }
+        else if (is_numeric($str_chk))
+            $editNum = $str_chk;
+
+        file_put_contents('message_num.txt', 'get');
 
         return view('index')
-            ->with(['postData' => $posts, 'add_message' => $add_msg]);
+            ->with(['postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
     }
 
     public function store(Request $request){
@@ -38,8 +42,23 @@ class ChatController extends Controller
             ->route('index');
     }
 
+    public function edit(Int $num){
+        file_put_contents('message_num.txt', $num+1);
+
+        return redirect()
+            ->route('index');
+    }
+
+    public function update(Request $request, Message $message){
+        // $message->body = $request->body;
+        // $message->save();
+
+        return redirect()
+            ->route('index');
+    }
+
     public function destroy(Message $message){
-        $message->delete();
+        $message->destroy();
 
         return redirect()
             ->route('index');

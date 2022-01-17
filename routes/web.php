@@ -20,8 +20,15 @@ Route::get('/', [ChatController::class, 'index'])
 Route::post('/post', [ChatController::class, 'store'])
     ->name('store');
 
+Route::get('/{num}/edit', [ChatController::class, 'edit'])
+    ->name('edit');
+
+Route::get('/{num}/update', [ChatController::class, 'update'])
+    ->name('update');
+
 Route::delete('/{message}', [ChatController::class, 'destroy'])
     ->name('destroy');
+
 
 // Route::get('/post', [ChatController::class, 'get'])
     // ->name('show');
