@@ -50,15 +50,15 @@ class ChatController extends Controller
     }
 
     public function update(Request $request, Message $message){
-        // $message->body = $request->body;
-        // $message->save();
+        $message->body = $request->body;
+        $message->save();
 
         return redirect()
             ->route('index');
     }
 
     public function destroy(Message $message){
-        $message->destroy();
+        $message->delete();
 
         return redirect()
             ->route('index');

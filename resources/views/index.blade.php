@@ -24,7 +24,7 @@
                 {{ var_dump(count($postData)); }} --}}
                 @if ($editNum-1 === $key)
                     <span class="user">{{ $post->user }}</span> :
-                    <form medhod="post" action="{{ route('update', $post) }}">
+                    <form method="post" action="{{ route('update', $post) }}">
                         @method('PATCH')
                         @csrf
                         <textarea name="body"></textarea>

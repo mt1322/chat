@@ -20,13 +20,13 @@ Route::get('/', [ChatController::class, 'index'])
 Route::post('/post', [ChatController::class, 'store'])
     ->name('store');
 
-Route::get('/{num}/edit', [ChatController::class, 'edit'])
+Route::get('/{num}/edit',  [ChatController::class, 'edit'])
     ->name('edit');
 
-Route::get('/{num}/update', [ChatController::class, 'update'])
+Route::patch('/{message}/update', [ChatController::class, 'update'])
     ->name('update');
 
-Route::delete('/{message}', [ChatController::class, 'destroy'])
+Route::delete('/delete/{message}', [ChatController::class, 'destroy'])
     ->name('destroy');
 
 
