@@ -4,16 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Message;
+use App\Models\Message2;
 
-class MessageNum
+class MessageData
 {
-    private $messages = 0;
+    public static function getData($id) {
+        $dataList = array(Message::all(), Message2::all());
+
+        // switch($id) {
+        //     case 0:
+        //         $data = Message::all();
+        //         break;
+        //     case 1:
+        //         $data = Message2::all();
+        //         break;
+        //     default:
+        //         break;
+        // }
+        return $dataList[$id];
+    }
 }
 
 class ChatController extends Controller
 {
-    public function index() {
-        $posts = Message::all();
+    public function index($id) {
+        // $posts = Message::all();
+        $posts = MessageData::getData($id);
         $add_msg = false;
         $editNum = 0;
 
@@ -39,28 +55,31 @@ class ChatController extends Controller
         file_put_contents('message_num.txt', 'add');
 
         return redirect()
-            ->route('index');
+            ->route('index', $id);
     }
 
-    public function edit(Int $num){
-        file_put_contents('message_num.txt', $num+1);
+    public function edit($num){
+        $getNum = explode(",", $num);
+        file_put_contents('message_num.txt', $getNum[0]+1);
 
         return redirect()
-            ->route('index');
+            ->route('index', $getNum[1]);
     }
 
-    public function update(Request $request, Message $message){
-        $message->body = $request->body;
-        $message->save();
+    public function update(Request $request, $message){
+        $getNum = explode(",", $message);
+        $messages = Message::find($getNum[0]);
+        $messages->body = $request->body;
+        $messages->save();
 
         return redirect()
-            ->route('index');
+            ->route('index', $getNum[1]);
     }
 
     public function destroy(Message $message){
         $message->delete();
 
         return redirect()
-            ->route('index');
+            ->route('index', $id);
     }
 }

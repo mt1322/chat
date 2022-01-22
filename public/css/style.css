@@ -59,12 +59,26 @@ ul {
 
 .delete-btn {
     display: inline-block;
+    position: relative;
 }
 
 .user {
     border: 2px solid #111;
+    display: inline-block;
+    /* position: relative; */
 }
 
 button {
     cursor: pointer;
+}
+
+.editArea {
+    border: none;
+    outline: none;
+    display: inline-block;
+    /* width: 82%; */
+    /* height: 5%; */
+    /* top: 130px; */
+    /* right: 200px; */
+    /* position: absolute; */
 }

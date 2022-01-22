@@ -14,7 +14,7 @@ use App\Http\Controllers\ChatController;
 |
 */
 
-Route::get('/', [ChatController::class, 'index'])
+Route::get('/channel1/{id}', [ChatController::class, 'index'])
     ->name('index');
 
 Route::post('/post', [ChatController::class, 'store'])
@@ -29,6 +29,8 @@ Route::patch('/{message}/update', [ChatController::class, 'update'])
 Route::delete('/delete/{message}', [ChatController::class, 'destroy'])
     ->name('destroy');
 
+Route::get('/channnel2/{id}', [ChatController::class, 'index'])
+    ->name('change');
 
 // Route::get('/post', [ChatController::class, 'get'])
     // ->name('show');
