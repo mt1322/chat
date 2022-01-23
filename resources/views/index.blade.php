@@ -5,9 +5,16 @@
 
     <h1> Chat </h1>
 
-    <a href="{{ route('change', 1) }}"> change </a>
+    <a href="{{ route('add', $channel) }}"> addChannel </a>
+    <br>
 
-    <form method="post" action="{{ route('store') }}">
+    @for ($i = 0; $i < $channelNum; $i++)
+        @if ($i !== intval($channel))
+            <a href="{{ route('index', $i) }}"> channel{{ $i+1 }} </a>
+        @endif
+    @endfor
+
+    <form method="post" action="{{ route('store', $channel) }}">
         @csrf
         <input type="text" name="user" value="{{ old('', '入力してください') }}">
         <textarea name="body" value="{{ old('', '入力してください') }}"> </textarea>
@@ -26,7 +33,7 @@
                 {{ var_dump(count($postData)); }} --}}
                 @if ($editNum-1 === $key)
                     <span class="user">{{ $post->user }}</span> :
-                    <?php $qry = $post->id . ',0'; ?>
+                    <?php $qry = $post->id . ',' . $channel; ?>
                     <form method="post" action="{{ route('update', $qry) }}">
                         @method('PATCH')
                         @csrf
@@ -36,13 +43,14 @@
                     </form>
                 @else
                     <span class="user">{{ $post->user }}</span> : {{ $post->body }}
-                    <?php $qry = $key . ',0'; ?>
+                    <?php $qry = $key . ',' . $channel; ?>
                     <a href="{{ route('edit', $qry) }}"> edit </a>
                 @endif
 
 
             </li>
-            <form method="post" action="{{ route('destroy', $post) }}" class="delete-form">
+            <?php $qry = $post->id . ',' . $channel; ?>
+            <form method="post" action="{{ route('destroy', $qry) }}" class="delete-form">
                 @method('DELETE')
                 @csrf
                 <button class="delete-btn"> x </button>

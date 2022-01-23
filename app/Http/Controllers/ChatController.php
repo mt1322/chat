@@ -41,12 +41,13 @@ class ChatController extends Controller
             $editNum = $str_chk;
 
         file_put_contents('message_num.txt', 'get');
+        $chanelNum = file_get_contents('channel_num.txt');
 
         return view('index')
-            ->with(['postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
+            ->with(['channel' => $id, 'channelNum' => $chanelNum, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request, Int $id){
         $message = new Message();
         $message->user = $request->user;
         $message->body = $request->body;
@@ -76,8 +77,18 @@ class ChatController extends Controller
             ->route('index', $getNum[1]);
     }
 
-    public function destroy(Message $message){
-        $message->delete();
+    public function destroy($message){
+        $getNum = explode(",", $message);
+        $messages = Message::find($getNum[0]);
+        $messages->delete();
+
+        return redirect()
+            ->route('index', $getNum[1]);
+    }
+
+    public function add(Int $id){
+        $num = file_get_contents('channel_num.txt');
+        file_put_contents('channel_num.txt', $num+1);
 
         return redirect()
             ->route('index', $id);
