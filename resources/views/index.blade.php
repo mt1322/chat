@@ -5,16 +5,16 @@
 
     <h1> Chat </h1>
 
-    <a href="{{ route('add', $channel) }}"> addChannel </a>
+    <a href="{{ route('add') }}"> addChannel </a>
     <br>
 
     @for ($i = 0; $i < $channelNum; $i++)
         @if ($i !== intval($channel))
-            <a href="{{ route('index', $i) }}"> channel{{ $i+1 }} </a>
+            <a href="{{ route('change', $i) }}"> channel{{ $i+1 }} </a>
         @endif
     @endfor
 
-    <form method="post" action="{{ route('store', $channel) }}">
+    <form method="post" action="{{ route('store') }}">
         @csrf
         <input type="text" name="user" value="{{ old('', '入力してください') }}">
         <textarea name="body" value="{{ old('', '入力してください') }}"> </textarea>
@@ -33,8 +33,8 @@
                 {{ var_dump(count($postData)); }} --}}
                 @if ($editNum-1 === $key)
                     <span class="user">{{ $post->user }}</span> :
-                    <?php $qry = $post->id . ',' . $channel; ?>
-                    <form method="post" action="{{ route('update', $qry) }}">
+                    <?php /*$qry = $post->id . ',' . $channel;*/ ?>
+                    <form method="post" action="{{ route('update', $post) }}">
                         @method('PATCH')
                         @csrf
                         {{-- <!-- <textarea name="body" class="editArea" value="{{ $post->body }}"></textarea> --> --}}
@@ -43,14 +43,14 @@
                     </form>
                 @else
                     <span class="user">{{ $post->user }}</span> : {{ $post->body }}
-                    <?php $qry = $key . ',' . $channel; ?>
-                    <a href="{{ route('edit', $qry) }}"> edit </a>
+                    <?php /*$qry = $key . ',' . $channel;*/ ?>
+                    <a href="{{ route('edit', $key) }}"> edit </a>
                 @endif
 
 
             </li>
-            <?php $qry = $post->id . ',' . $channel; ?>
-            <form method="post" action="{{ route('destroy', $qry) }}" class="delete-form">
+            <?php /*$qry = $post->id . ',' . $channel;*/ ?>
+            <form method="post" action="{{ route('destroy', $post) }}" class="delete-form">
                 @method('DELETE')
                 @csrf
                 <button class="delete-btn"> x </button>

@@ -14,10 +14,13 @@ use App\Http\Controllers\ChatController;
 |
 */
 
-Route::get('/{id}', [ChatController::class, 'index'])
+Route::get('/', [ChatController::class, 'start'])
+    ->name('start');
+
+Route::get('/chat', [ChatController::class, 'index'])
     ->name('index');
 
-Route::post('/{id}/post', [ChatController::class, 'store'])
+Route::post('/post', [ChatController::class, 'store'])
     ->name('store');
 
 Route::get('/{num}/edit',  [ChatController::class, 'edit'])
@@ -29,8 +32,11 @@ Route::patch('/{message}/update', [ChatController::class, 'update'])
 Route::delete('/{message}/delete', [ChatController::class, 'destroy'])
     ->name('destroy');
 
-Route::get('/{id}/add', [ChatController::class, 'add'])
+Route::get('/add', [ChatController::class, 'add'])
     ->name('add');
+
+Route::get('/{id}/change', [ChatController::class, 'change'])
+    ->name('change');
 
 // Route::get('/post', [ChatController::class, 'get'])
     // ->name('show');

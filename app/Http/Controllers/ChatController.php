@@ -27,7 +27,18 @@ class MessageData
 
 class ChatController extends Controller
 {
-    public function index($id) {
+    public function start() {
+
+
+        return view('start');
+    }
+
+    public function index() {
+        // $id = filter_input(INPUT_COOKIE, 'channel');
+        $id = file_get_contents('channel_num.txt');
+        $chanelNum = filter_input(INPUT_COOKIE, 'channelNum');
+
+
         // $posts = Message::all();
         $posts = MessageData::getData($id);
         $add_msg = false;
@@ -41,13 +52,14 @@ class ChatController extends Controller
             $editNum = $str_chk;
 
         file_put_contents('message_num.txt', 'get');
-        $chanelNum = file_get_contents('channel_num.txt');
+
+
 
         return view('index')
             ->with(['channel' => $id, 'channelNum' => $chanelNum, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
     }
 
-    public function store(Request $request, Int $id){
+    public function store(Request $request){
         $message = new Message();
         $message->user = $request->user;
         $message->body = $request->body;
@@ -56,41 +68,56 @@ class ChatController extends Controller
         file_put_contents('message_num.txt', 'add');
 
         return redirect()
-            ->route('index', $id);
+            ->route('index');
     }
 
-    public function edit($num){
-        $getNum = explode(",", $num);
-        file_put_contents('message_num.txt', $getNum[0]+1);
+    public function edit(Int $num){
+        // $getNum = explode(",", $num);
+        file_put_contents('message_num.txt', $num+1);
 
         return redirect()
-            ->route('index', $getNum[1]);
+            ->route('index');
     }
 
-    public function update(Request $request, $message){
-        $getNum = explode(",", $message);
-        $messages = Message::find($getNum[0]);
-        $messages->body = $request->body;
-        $messages->save();
+    public function update(Request $request, Message $message){
+        // $getNum = explode(",", $message);
+        // $messages = Message::find($getNum[0]);
+        // $messages->body = $request->body;
+        // $messages->save();
+        $message->body = $request->body;
+        $message->save();
+
 
         return redirect()
-            ->route('index', $getNum[1]);
+            ->route('index');
     }
 
-    public function destroy($message){
-        $getNum = explode(",", $message);
-        $messages = Message::find($getNum[0]);
-        $messages->delete();
+    public function destroy(Message $message){
+        // $getNum = explode(",", $message);
+        // $messages = Message::find($getNum[0]);
+        // $messages->delete();
+        $message->delete();
 
         return redirect()
-            ->route('index', $getNum[1]);
+            ->route('index');
     }
 
-    public function add(Int $id){
-        $num = file_get_contents('channel_num.txt');
-        file_put_contents('channel_num.txt', $num+1);
+    public function add(){
+        // $num = file_get_contents('channel_num.txt');
+        // file_put_contents('channel_num.txt', $num+1);
+        $channelNum = filter_input(INPUT_COOKIE, 'channelNum');
+        setcookie('channelNum', $channelNum+1);
 
         return redirect()
-            ->route('index', $id);
+            ->route('index');
+    }
+
+    public function change(Int $id){
+        $channel = filter_input(INPUT_COOKIE, 'channel');
+        // setcookie('channel', $channel+1);
+        file_put_contents('channel_num.txt', $id);
+
+        return redirect()
+            ->route('index');
     }
 }
