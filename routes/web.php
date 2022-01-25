@@ -38,6 +38,9 @@ Route::get('/add', [ChatController::class, 'add'])
 Route::get('/{id}/change', [ChatController::class, 'change'])
     ->name('change');
 
+Route::delete('/{message}/deleteChannel', [ChatController::class, 'destroyChannel'])
+    ->name('destroyChannel');
+
 // Route::get('/post', [ChatController::class, 'get'])
     // ->name('show');
 

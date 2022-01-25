@@ -9,8 +9,13 @@
     <br>
 
     @for ($i = 0; $i < $channelNum; $i++)
-        @if ($i !== intval($channel))
+        @if ($i !== $channel)
             <a href="{{ route('change', $i) }}"> channel{{ $i+1 }} </a>
+            <form method="post" action="{{ route('destroyChannel', $i) }}" class="delete-channel">
+                @method('DELETE')
+                @csrf
+                <button class="delete-btn"> x </button>
+            </form>
         @endif
     @endfor
 

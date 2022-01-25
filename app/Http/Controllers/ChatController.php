@@ -35,28 +35,29 @@ class ChatController extends Controller
 
     public function index() {
         // $id = filter_input(INPUT_COOKIE, 'channel');
-        $id = file_get_contents('channel_num.txt');
-        $chanelNum = filter_input(INPUT_COOKIE, 'channelNum');
-
+        // $id = file_get_contents('channel_num.txt');
+        // $chanelNum = filter_input(INPUT_COOKIE, 'channelNum');
+        $channel = session('channel');
+        $channelNum = session('channelNum');
 
         // $posts = Message::all();
-        $posts = MessageData::getData($id);
-        $add_msg = false;
-        $editNum = 0;
+        // $posts = MessageData::getData($channel);
+        $posts = session('channelList')[$channel];
+        $add_msg = session('post');
+        $editNum = session('edit');
 
-        $str_chk = file_get_contents('message_num.txt');
-        if ($str_chk === 'add') {
-            $add_msg = true;
-        }
-        else if (is_numeric($str_chk))
-            $editNum = $str_chk;
+        // $str_chk = file_get_contents('message_num.txt');
+        // if ($str_chk === 'add') {
+        //     $add_msg = true;
+        // }
+        // else if (is_numeric($str_chk))
+        //     $editNum = $str_chk;
 
-        file_put_contents('message_num.txt', 'get');
-
-
+        session(['post' => false]);
+        session(['edit' => 0]);
 
         return view('index')
-            ->with(['channel' => $id, 'channelNum' => $chanelNum, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
+            ->with(['channel' => $channel, 'channelNum' => $channelNum, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
     }
 
     public function store(Request $request){
@@ -65,7 +66,8 @@ class ChatController extends Controller
         $message->body = $request->body;
         $message->save();
 
-        file_put_contents('message_num.txt', 'add');
+        // file_put_contents('message_num.txt', 'add');
+        session(['post' => true]);
 
         return redirect()
             ->route('index');
@@ -73,7 +75,8 @@ class ChatController extends Controller
 
     public function edit(Int $num){
         // $getNum = explode(",", $num);
-        file_put_contents('message_num.txt', $num+1);
+        // file_put_contents('message_num.txt', $num+1);
+        session(['edit' => $num+1]);
 
         return redirect()
             ->route('index');
@@ -105,17 +108,37 @@ class ChatController extends Controller
     public function add(){
         // $num = file_get_contents('channel_num.txt');
         // file_put_contents('channel_num.txt', $num+1);
-        $channelNum = filter_input(INPUT_COOKIE, 'channelNum');
-        setcookie('channelNum', $channelNum+1);
+        // $channelNum = filter_input(INPUT_COOKIE, 'channelNum');
+        // setcookie('channelNum', $channelNum+1);
+        session(['channelNum' => session('channelNum')+1]);
 
         return redirect()
             ->route('index');
     }
 
     public function change(Int $id){
-        $channel = filter_input(INPUT_COOKIE, 'channel');
+        // $channel = filter_input(INPUT_COOKIE, 'channel');
         // setcookie('channel', $channel+1);
-        file_put_contents('channel_num.txt', $id);
+        // file_put_contents('channel_num.txt', $id);
+        session(['channel' => $id ]);
+
+
+        return redirect()
+            ->route('index');
+    }
+
+    public function destroyChannel(Int $channelId){
+        // $posts = MessageData::getData($channelId);
+        $channelList = session('channelList');
+        $deleteChannel = $channelList[$channelId];
+        $splChannels = array_splice($channelList, $channelId, 1);
+        array_push($splChannels, $deleteChannel);
+        session(['channelList' => $splChannels]);
+        session(['channelNum' => session('channelNum')-1]);
+
+        foreach($deleteChannel as $post) {
+            $post->delete();
+        }
 
         return redirect()
             ->route('index');
