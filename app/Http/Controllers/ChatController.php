@@ -24,11 +24,18 @@ class MessageData
         return $dataList[$id];
     }
 
+    public static function findData($id, $messageId) {
+        $dataList = array(Message::find($messageId), Message2::find($messageId));
+
+        return $dataList[$id];
+    }
+
     public static function setData($id) {
         $dataList = array(new Message(), new Message2());
 
         return $dataList[$id];
     }
+
 }
 
 class ChatController extends Controller
@@ -92,11 +99,12 @@ class ChatController extends Controller
             ->route('index');
     }
 
-    public function update(Request $request, Message $message){
+    public function update(Request $request, Int $messageId){
         // $getNum = explode(",", $message);
         // $messages = Message::find($getNum[0]);
         // $messages->body = $request->body;
         // $messages->save();
+        $message = MessageData::findData(session('channel'), $messageId);
         $message->body = $request->body;
         $message->save();
 
@@ -105,10 +113,11 @@ class ChatController extends Controller
             ->route('index');
     }
 
-    public function destroy(Message $message){
+    public function destroy(Int $messageId){
         // $getNum = explode(",", $message);
         // $messages = Message::find($getNum[0]);
         // $messages->delete();
+        $message = MessageData::findData(session('channel'), $messageId);
         $message->delete();
 
         return redirect()
