@@ -8,7 +8,8 @@
     // $_SESSION['channelNum'] = 1;
     session(['channel' => 0]);
     session(['channelNum' => 1]);
-    session(['channelList' => array(Message::all(), Message2::all())]);
+    session(['channelList' => array(0, 1)]);
+    // session(['channelPostList' => array(new Message(), new Message2())]);
 ?>
 
 <x-layout>

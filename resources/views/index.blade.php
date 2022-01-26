@@ -4,6 +4,7 @@
     </x-slot>
 
     <h1> Chat </h1>
+    <h2> channel<?= $channel+1 ?> </h2>
 
     <a href="{{ route('add') }}"> addChannel </a>
     <br>

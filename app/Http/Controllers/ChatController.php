@@ -23,6 +23,12 @@ class MessageData
         // }
         return $dataList[$id];
     }
+
+    public static function setData($id) {
+        $dataList = array(new Message(), new Message2());
+
+        return $dataList[$id];
+    }
 }
 
 class ChatController extends Controller
@@ -40,9 +46,11 @@ class ChatController extends Controller
         $channel = session('channel');
         $channelNum = session('channelNum');
 
+        // print_r(session('channelList'));
+
         // $posts = Message::all();
         // $posts = MessageData::getData($channel);
-        $posts = session('channelList')[$channel];
+        $posts = MessageData::getData(session('channelList')[$channel]);
         $add_msg = session('post');
         $editNum = session('edit');
 
@@ -61,7 +69,9 @@ class ChatController extends Controller
     }
 
     public function store(Request $request){
-        $message = new Message();
+        // $message = new Message();
+        $channel = session('channel');
+        $message = MessageData::setData(session('channelList')[$channel]);
         $message->user = $request->user;
         $message->body = $request->body;
         $message->save();
@@ -130,13 +140,13 @@ class ChatController extends Controller
     public function destroyChannel(Int $channelId){
         // $posts = MessageData::getData($channelId);
         $channelList = session('channelList');
-        $deleteChannel = $channelList[$channelId];
-        $splChannels = array_splice($channelList, $channelId, 1);
-        array_push($splChannels, $deleteChannel);
-        session(['channelList' => $splChannels]);
+        $deleteChannel = array_splice($channelList, $channelId, 1)[0];
+        array_push($channelList, $deleteChannel);
+        session(['channelList' => $channelList]);
         session(['channelNum' => session('channelNum')-1]);
 
-        foreach($deleteChannel as $post) {
+        $posts = MessageData::getData($deleteChannel);
+        foreach($posts as $post) {
             $post->delete();
         }
 
