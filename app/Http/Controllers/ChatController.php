@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Models\Message2;
+use App\Models\Message3;
+use App\Models\Message4;
+use App\Models\Message5;
 
 class MessageData
 {
     public static function getData($id) {
-        $dataList = array(Message::all(), Message2::all());
+        $dataList = array(Message::all(),
+                          Message2::all(),
+                          Message3::all(),
+                          Message4::all(),
+                          Message5::all());
 
         // switch($id) {
         //     case 0:
@@ -25,13 +32,21 @@ class MessageData
     }
 
     public static function findData($id, $messageId) {
-        $dataList = array(Message::find($messageId), Message2::find($messageId));
+        $dataList = array(Message::find($messageId),
+                          Message2::find($messageId),
+                          Message3::find($messageId),
+                          Message4::find($messageId),
+                          Message5::find($messageId));
 
         return $dataList[$id];
     }
 
     public static function setData($id) {
-        $dataList = array(new Message(), new Message2());
+        $dataList = array(new Message(),
+                          new Message2(),
+                          new Message3(),
+                          new Message4(),
+                          new Message5());
 
         return $dataList[$id];
     }
@@ -52,6 +67,7 @@ class ChatController extends Controller
         // $chanelNum = filter_input(INPUT_COOKIE, 'channelNum');
         $channel = session('channel');
         $channelNum = session('channelNum');
+        $channelName = session('channelName');
 
         // print_r(session('channelList'));
 
@@ -72,7 +88,7 @@ class ChatController extends Controller
         session(['edit' => 0]);
 
         return view('index')
-            ->with(['channel' => $channel, 'channelNum' => $channelNum, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
+            ->with(['channel' => $channel, 'channelNum' => $channelNum, 'channelName' => $channelName, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
     }
 
     public function store(Request $request){
@@ -124,12 +140,17 @@ class ChatController extends Controller
             ->route('index');
     }
 
-    public function add(){
+    public function add(Request $request){
         // $num = file_get_contents('channel_num.txt');
         // file_put_contents('channel_num.txt', $num+1);
         // $channelNum = filter_input(INPUT_COOKIE, 'channelNum');
         // setcookie('channelNum', $channelNum+1);
-        session(['channelNum' => session('channelNum')+1]);
+        if (session('channelNum') < 5)
+            session(['channelNum' => session('channelNum')+1]);
+
+        $names = session('channelName');
+        array_push($names, $request->newChannel);
+        session(['channelName' => $names]);
 
         return redirect()
             ->route('index');
@@ -153,6 +174,10 @@ class ChatController extends Controller
         array_push($channelList, $deleteChannel);
         session(['channelList' => $channelList]);
         session(['channelNum' => session('channelNum')-1]);
+
+        $names = session('channelName');
+        array_splice($names, $channelId, 1);
+        session(['channelName' =>  $names]);
 
         $posts = MessageData::getData($deleteChannel);
         foreach($posts as $post) {

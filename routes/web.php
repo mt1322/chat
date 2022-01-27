@@ -32,7 +32,7 @@ Route::patch('/{message}/update', [ChatController::class, 'update'])
 Route::delete('/{message}/delete', [ChatController::class, 'destroy'])
     ->name('destroy');
 
-Route::get('/add', [ChatController::class, 'add'])
+Route::post('/add', [ChatController::class, 'add'])
     ->name('add');
 
 Route::get('/{id}/change', [ChatController::class, 'change'])

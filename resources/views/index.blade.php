@@ -4,14 +4,21 @@
     </x-slot>
 
     <h1> Chat </h1>
-    <h2> channel<?= $channel+1 ?> </h2>
+    <h2> {{ session('channelName')[$channel] }} </h2>
 
-    <a href="{{ route('add') }}"> addChannel </a>
+    {{-- <!-- <a href="{{ route('add') }}"> addChannel </a> --> --}}
+    <form method="post" action="{{ route('add') }}">
+        @csrf
+        <input type="text" name="newChannel">
+
+        <button type="submit">チャンネル作成</button>
+    </form>
+
     <br>
 
     @for ($i = 0; $i < $channelNum; $i++)
         @if ($i !== $channel)
-            <a href="{{ route('change', $i) }}"> channel{{ $i+1 }} </a>
+            <a href="{{ route('change', $i) }}"> {{ session('channelName')[$i] }} </a>
             <form method="post" action="{{ route('destroyChannel', $i) }}" class="delete-channel">
                 @method('DELETE')
                 @csrf
