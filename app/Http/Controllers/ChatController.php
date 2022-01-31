@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Message;
 use App\Models\Message2;
 use App\Models\Message3;
 use App\Models\Message4;
 use App\Models\Message5;
+use App\Models\Store;
+use App\Models\User;
 
 class MessageData
 {
@@ -87,6 +90,18 @@ class ChatController extends Controller
         session(['post' => false]);
         session(['edit' => 0]);
 
+        $stores = Store::find(1);
+        $members = array();
+        $members2 = array();
+        for ($i = 0; $i < $chanelNum; $i++) {
+            $members.push([$i => $channelName[$i]]);
+            $members2.push([$i => $channelList[$i]]);
+        }
+        $stores->channelNum = json_encode($channelNum);
+        $stores->channelName = json_encode($members);
+        $stores->channelList = json_encode($members2);
+        $stores->save();
+
         return view('index')
             ->with(['channel' => $channel, 'channelNum' => $channelNum, 'channelName' => $channelName, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
     }
@@ -95,7 +110,7 @@ class ChatController extends Controller
         // $message = new Message();
         $channel = session('channel');
         $message = MessageData::setData(session('channelList')[$channel]);
-        $message->user = $request->user;
+        $message->user = Auth::user()->name;
         $message->body = $request->body;
         $message->save();
 

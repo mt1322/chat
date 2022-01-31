@@ -14,7 +14,17 @@ use App\Http\Controllers\ChatController;
 |
 */
 
-Route::get('/', [ChatController::class, 'start'])
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+Route::get('/start', [ChatController::class, 'start'])
     ->name('start');
 
 Route::get('/chat', [ChatController::class, 'index'])
@@ -40,9 +50,3 @@ Route::get('/{id}/change', [ChatController::class, 'change'])
 
 Route::delete('/{message}/deleteChannel', [ChatController::class, 'destroyChannel'])
     ->name('destroyChannel');
-
-// Route::get('/post', [ChatController::class, 'get'])
-    // ->name('show');
-
-// Route::post('/post', [ChatController::class, 'store'])
-    // ->name('post');

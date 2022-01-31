@@ -29,7 +29,7 @@
 
     <form method="post" action="{{ route('store') }}">
         @csrf
-        <input type="text" name="user" value="{{ old('', '入力してください') }}">
+        {{-- <!-- <input type="text" name="user" value="{{ old('', '入力してください') }}"> --> --}}
         <textarea name="body" value="{{ old('', '入力してください') }}"> </textarea>
 
         <button type="submit">送信</button>

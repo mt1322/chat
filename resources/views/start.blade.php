@@ -4,10 +4,13 @@
     // file_put_contents('channel_num.txt', 0);
     // $_SESSION['channel'] = 0;
     // $_SESSION['channelNum'] = 1;
+    use App\Models\Store;
+
+    $channelStore = Store::find(1);
     session(['channel' => 0]);
-    session(['channelNum' => 0]);
-    session(['channelName' => array()]);
-    session(['channelList' => array(0, 1, 2, 3, 4)]);
+    session(['channelNum' => $channelStore->channelNum]);
+    session(['channelName' => $channelStore->channelName]);
+    session(['channelList' => $channelStore->channelList]);
     // session(['channelPostList' => array(new Message(), new Message2())]);
 ?>
 
