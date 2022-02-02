@@ -5,6 +5,11 @@
 
     <h1> Chat </h1>
     <h2> {{ session('channelName')[$channel] }} </h2>
+    <form method="post" action="{{ route('destroyOwnChannel', $channel) }}" class="delete-channel">
+        @method('DELETE')
+        @csrf
+        <button class="delete-btn"> x </button>
+    </form>
 
     {{-- <!-- <a href="{{ route('add') }}"> addChannel </a> --> --}}
     <form method="post" action="{{ route('add') }}">

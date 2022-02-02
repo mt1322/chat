@@ -50,3 +50,6 @@ Route::get('/{id}/change', [ChatController::class, 'change'])
 
 Route::delete('/{message}/deleteChannel', [ChatController::class, 'destroyChannel'])
     ->name('destroyChannel');
+
+Route::delete('/{message}/deleteOwnChannel', [ChatController::class, 'destroyOwnChannel'])
+    ->name('destroyOwnChannel');

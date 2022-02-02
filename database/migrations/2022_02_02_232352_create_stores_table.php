@@ -16,8 +16,8 @@ class CreateStoresTable extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
             $table->integer('channelNum');
-            $table->json('channelName');
-            $table->json('channelList');
+            $table->string('channelName')->nullable();
+            $table->string('channelList');
             $table->timestamps();
         });
     }

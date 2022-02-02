@@ -65,6 +65,7 @@ class ChatController extends Controller
     }
 
     public function index() {
+
         // $id = filter_input(INPUT_COOKIE, 'channel');
         // $id = file_get_contents('channel_num.txt');
         // $chanelNum = filter_input(INPUT_COOKIE, 'channelNum');
@@ -72,6 +73,16 @@ class ChatController extends Controller
         $channelNum = session('channelNum');
         $channelName = session('channelName');
 
+        $stores = Store::find(1);
+        $strName = implode(",", session('channelName'));
+        $strList = implode(",", session('channelList'));
+        $stores->channelNum = $channelNum;
+        $stores->channelName = $strName;
+        $stores->channelList = $strList;
+        $stores->save();
+
+        if ($channelNum == 0)
+            return view('start');
         // print_r(session('channelList'));
 
         // $posts = Message::all();
@@ -89,18 +100,6 @@ class ChatController extends Controller
 
         session(['post' => false]);
         session(['edit' => 0]);
-
-        $stores = Store::find(1);
-        $members = array();
-        $members2 = array();
-        for ($i = 0; $i < $chanelNum; $i++) {
-            $members.push([$i => $channelName[$i]]);
-            $members2.push([$i => $channelList[$i]]);
-        }
-        $stores->channelNum = json_encode($channelNum);
-        $stores->channelName = json_encode($members);
-        $stores->channelList = json_encode($members2);
-        $stores->save();
 
         return view('index')
             ->with(['channel' => $channel, 'channelNum' => $channelNum, 'channelName' => $channelName, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
@@ -160,6 +159,9 @@ class ChatController extends Controller
         // file_put_contents('channel_num.txt', $num+1);
         // $channelNum = filter_input(INPUT_COOKIE, 'channelNum');
         // setcookie('channelNum', $channelNum+1);
+        if (session('channelNum') == 0)
+            session(['channelName' => array()]);
+
         if (session('channelNum') < 5)
             session(['channelNum' => session('channelNum')+1]);
 
@@ -182,8 +184,7 @@ class ChatController extends Controller
             ->route('index');
     }
 
-    public function destroyChannel(Int $channelId){
-        // $posts = MessageData::getData($channelId);
+    public function destroyChannelCommon(Int $channelId) {
         $channelList = session('channelList');
         $deleteChannel = array_splice($channelList, $channelId, 1)[0];
         array_push($channelList, $deleteChannel);
@@ -198,6 +199,23 @@ class ChatController extends Controller
         foreach($posts as $post) {
             $post->delete();
         }
+
+        return;
+    }
+
+    public function destroyChannel(Int $channelId){
+        $this->destroyChannelCommon($channelId);
+
+        return redirect()
+            ->route('index');
+    }
+
+    public function destroyOwnChannel(Int $channelId){
+        $channel = session('channel');
+        // if ($channel > 0 || $channel == 0 && session('channelNum') > 1)
+        session(['channel' => 0]);
+
+        $this->destroyChannelCommon($channelId);
 
         return redirect()
             ->route('index');
