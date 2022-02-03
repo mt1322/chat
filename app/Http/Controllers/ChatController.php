@@ -130,11 +130,8 @@ class ChatController extends Controller
     }
 
     public function update(Request $request, Int $messageId){
-        // $getNum = explode(",", $message);
-        // $messages = Message::find($getNum[0]);
-        // $messages->body = $request->body;
-        // $messages->save();
-        $message = MessageData::findData(session('channel'), $messageId);
+        $channel = session('channel');
+        $message = MessageData::findData(session('channelList')[$channel], $messageId);
         $message->body = $request->body;
         $message->save();
 
@@ -144,10 +141,10 @@ class ChatController extends Controller
     }
 
     public function destroy(Int $messageId){
-        // $getNum = explode(",", $message);
-        // $messages = Message::find($getNum[0]);
-        // $messages->delete();
-        $message = MessageData::findData(session('channel'), $messageId);
+        $channel = session('channel');
+        $message = MessageData::findData(session('channelList')[$channel], $messageId);
+
+        // $message = Message3::find($messageId);
         $message->delete();
 
         return redirect()

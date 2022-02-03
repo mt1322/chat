@@ -62,7 +62,7 @@
                 @else
                     <span class="user">{{ $post->user }}</span> : {{ $post->body }}
                     <?php /*$qry = $key . ',' . $channel;*/ ?>
-                    <a href="{{ route('edit', $key) }}"> edit </a>
+                    <a href="{{ route('edit', $key) }}" class="edit"> edit </a>
                 @endif
 
 

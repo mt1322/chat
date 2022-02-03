@@ -5,7 +5,7 @@ ul {
 .message-list {
     border: 1px solid #000;
     border-radius: 4px;
-    display: inline-block;
+    display: flex;
     width: 90%;
     margin-bottom: 10px;
     /* animation-name: updateMessage;
@@ -15,7 +15,6 @@ ul {
 }
 
 .new-message{
-    margin-top: -25px;
     animation-name: newMessage;
     animation-duration: 3s;
     animation-timing-function: ease-in-out;
@@ -42,6 +41,7 @@ ul {
     }
     50% {
         border: 1px solid #000;
+        transform: translateY(5px);
     }
     75% {
         border: 1px solid #f00;
@@ -49,12 +49,13 @@ ul {
     100% {
         border: 1px solid #000;
         opacity: 1;
-        transform: translateY(25px);
+
     }
 }
 
 .delete-form {
-    text-align: right;
+    /* text-align: right; */
+    display: inline-block;
 }
 
 .delete-btn {
@@ -64,7 +65,9 @@ ul {
 
 .user {
     border: 2px solid #111;
-    display: inline-block;
+    /* display: inline-block; */
+    padding: 4px;
+    width: 5%;
     /* position: relative; */
 }
 
@@ -75,7 +78,9 @@ button {
 .editArea {
     border: none;
     outline: none;
-    display: inline-block;
+    /* display: inline-block; */
+    width: 50%;
+
     /* width: 82%; */
     /* height: 5%; */
     /* top: 130px; */
