@@ -1,5 +1,28 @@
+/* .scroll{
+    overflow-y: scroll;
+    height: 1500px;
+}
+
+#scroll-inner{
+    height: 2000px;
+} */
+
 ul {
     list-style-type: none;
+}
+
+.chat-header {
+    position: fixed;
+    background-color: #fff;
+    z-index: 99;
+    width: 100%;
+    margin-top: -20px;
+    border-bottom: 2px solid #000;
+}
+
+.chat-main {
+    padding-top: 300px;
+    z-index: 1;
 }
 
 .message-list {
@@ -7,7 +30,8 @@ ul {
     border-radius: 4px;
     display: flex;
     width: 90%;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
+    position: relative;
     /* animation-name: updateMessage;
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
@@ -56,11 +80,15 @@ ul {
 .delete-form {
     /* text-align: right; */
     display: inline-block;
+    position: absolute;
+    top: 52px;
+    right: -60px;
+    width: 200px;
 }
 
 .delete-btn {
     display: inline-block;
-    position: relative;
+    position: absolute;
 }
 
 .user {
@@ -68,19 +96,44 @@ ul {
     /* display: inline-block; */
     padding: 4px;
     width: 5%;
+    font-size: 25px;
+    text-align: center;
+    line-height: 65px;
     /* position: relative; */
+}
+
+.postBody {
+    font-size: 40px;
+    padding: -10px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 65px;
 }
 
 button {
     cursor: pointer;
 }
 
+.edit {
+    position: absolute;
+    top: -25px;
+    right: 15px;
+}
+
+.message-list button {
+    top: -30px;
+    right: 10px;
+}
+
 .editArea {
     border: none;
     outline: none;
     /* display: inline-block; */
-    width: 50%;
-
+    width: 210%;
+    height: 60px;
+    box-sizing: border-box;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 100px;
     /* width: 82%; */
     /* height: 5%; */
     /* top: 130px; */
