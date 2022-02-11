@@ -8,11 +8,11 @@
 
     <div class="chat-header">
         <h1> Chat </h1>
-        <h2> {{ session('channelName')[$channel] }} </h2>
-        <form method="post" action="{{ route('destroyOwnChannel', $channel) }}" class="delete-channel">
+        <h2 class="channelName"> {{ session('channelName')[$channel] }} </h2>
+        <form method="post" action="{{ route('destroyOwnChannel', $channel) }}" class="delete-own">
             @method('DELETE')
             @csrf
-            <button class="delete-btn"> x </button>
+            <button class="delete-btn"> チャンネル削除 </button>
         </form>
 
         {{-- <!-- <a href="{{ route('add') }}"> addChannel </a> --> --}}
@@ -25,24 +25,28 @@
 
         <br>
 
-        @for ($i = 0; $i < $channelNum; $i++)
-            @if ($i !== $channel)
-                <a href="{{ route('change', $i) }}"> {{ session('channelName')[$i] }} </a>
-                <form method="post" action="{{ route('destroyChannel', $i) }}" class="delete-channel">
-                    @method('DELETE')
-                    @csrf
-                    <button class="delete-btn"> x </button>
-                </form>
-            @endif
-        @endfor
-
         <form method="post" action="{{ route('store') }}">
             @csrf
             {{-- <!-- <input type="text" name="user" value="{{ old('', '入力してください') }}"> --> --}}
-            <textarea name="body" value="{{ old('', '入力してください') }}"> </textarea>
+            <textarea class="submitForm" name="body" value="{{ old('', '入力してください') }}"> </textarea>
 
-            <button type="submit">送信</button>
+            <button class="submitForm-btn" type="submit">送信</button>
         </form>
+
+        <div class="channelTabss">
+        @for ($i = 0; $i < $channelNum; $i++)
+            @if ($i !== $channel)
+            <div class="channelTabs">
+                <a href="{{ route('change', $i) }}" class="channelTab"> {{ session('channelName')[$i] }} </a>
+                <form method="post" action="{{ route('destroyChannel', $i) }}" class="delete-channel">
+                    @method('DELETE')
+                    @csrf
+                    <button class="delete-channel"> x </button>
+                </form>
+            </div>
+            @endif
+        @endfor
+        </div>
 
     </div>
     <div class="chat-main">

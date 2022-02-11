@@ -21,7 +21,6 @@
 
     <h1> Chat </h1>
 
-    @if (session('channelNum') == 0)
         <form method="post" action="{{ route('add') }}">
             @csrf
             please input channel Name...
@@ -29,7 +28,4 @@
 
             <button type="submit">開始</button>
         </form>
-    @else
-        <a href="{{ route('index') }}"> starting chat </a>
-    @endif
 </x-layout>
