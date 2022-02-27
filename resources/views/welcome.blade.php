@@ -42,3 +42,19 @@
             <h1> Chat Room </h1>
     </body>
 </html>
+
+<?php
+    // setcookie('channel', 0);
+    // setcookie('channelNum', 1);
+    // file_put_contents('channel_num.txt', 0);
+    // $_SESSION['channel'] = 0;
+    // $_SESSION['channelNum'] = 1;
+    use App\Models\Store;
+
+    $channelStore = Store::find(1);
+    session(['channel' => 0]);
+    session(['channelNum' => $channelStore->channelNum]);
+    session(['channelName' => explode(",", $channelStore->channelName)]);
+    session(['channelList' => explode(",", $channelStore->channelList)]);
+    // session(['channelPostList' => array(new Message(), new Message2())]);
+?>
