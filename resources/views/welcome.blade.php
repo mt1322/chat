@@ -1,3 +1,19 @@
+<?php
+    // setcookie('channel', 0);
+    // setcookie('channelNum', 1);
+    // file_put_contents('channel_num.txt', 0);
+    // $_SESSION['channel'] = 0;
+    // $_SESSION['channelNum'] = 1;
+    use App\Models\Store;
+
+    $channelStore = Store::find(1);
+    session(['channel' => 0]);
+    session(['channelNum' => $channelStore->channelNum]);
+    session(['channelName' => explode(",", $channelStore->channelName)]);
+    session(['channelList' => explode(",", $channelStore->channelList)]);
+    // session(['channelPostList' => array(new Message(), new Message2())]);
+?>
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -27,8 +43,17 @@
                         @if (session('channelNum') == 0)
                             <a href="{{ url('/start') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Start</a>
                         @else
-                            <a href="{{ url('/chat') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Start</a>
+                            <a href="{{ url('/chat') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Chat</a>
                         @endif
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-responsive-nav-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-responsive-nav-link>
+                        </form>
                     @else
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
@@ -43,18 +68,4 @@
     </body>
 </html>
 
-<?php
-    // setcookie('channel', 0);
-    // setcookie('channelNum', 1);
-    // file_put_contents('channel_num.txt', 0);
-    // $_SESSION['channel'] = 0;
-    // $_SESSION['channelNum'] = 1;
-    use App\Models\Store;
 
-    $channelStore = Store::find(1);
-    session(['channel' => 0]);
-    session(['channelNum' => $channelStore->channelNum]);
-    session(['channelName' => explode(",", $channelStore->channelName)]);
-    session(['channelList' => explode(",", $channelStore->channelList)]);
-    // session(['channelPostList' => array(new Message(), new Message2())]);
-?>
