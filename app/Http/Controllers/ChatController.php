@@ -11,6 +11,7 @@ use App\Models\Message4;
 use App\Models\Message5;
 use App\Models\Store;
 use App\Models\User;
+use App\Models\UploadImage;
 
 class MessageData
 {
@@ -91,6 +92,9 @@ class ChatController extends Controller
         $add_msg = session('post');
         $editNum = session('edit');
 
+        $image = UploadImage::find(2);
+        $imagePath = $image->file_path;
+
         // $str_chk = file_get_contents('message_num.txt');
         // if ($str_chk === 'add') {
         //     $add_msg = true;
@@ -102,7 +106,7 @@ class ChatController extends Controller
         session(['edit' => 0]);
 
         return view('index')
-            ->with(['channel' => $channel, 'channelNum' => $channelNum, 'channelName' => $channelName, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum]);
+            ->with(['channel' => $channel, 'channelNum' => $channelNum, 'channelName' => $channelName, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum, 'upload_image' => $imagePath]);
     }
 
     public function store(Request $request){

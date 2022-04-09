@@ -53,3 +53,9 @@ Route::delete('/{message}/deleteChannel', [ChatController::class, 'destroyChanne
 
 Route::delete('/{message}/deleteOwnChannel', [ChatController::class, 'destroyOwnChannel'])
     ->name('destroyOwnChannel');
+
+Route::get('/form', [App\Http\Controllers\UploadImageController::class, "show"])
+    ->name("upload_form");
+
+Route::post('/upload', [App\Http\Controllers\UploadImageController::class, "upload"])
+    ->name("upload_image");

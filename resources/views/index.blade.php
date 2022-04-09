@@ -33,6 +33,12 @@
             <button class="submitForm-btn" type="submit">送信</button>
         </form>
 
+        <form method="post" action="{{ route('upload_image') }}" enctype="multipart/form-data">
+            @csrf
+	        <input type="file" name="image" accept="image/png, image/jpeg">/>
+	        <input type="submit" value="Upload">
+        </form>
+
         <div class="channelTabss">
         @for ($i = 0; $i < $channelNum; $i++)
             @if ($i !== $channel)
@@ -61,7 +67,7 @@
                     {{-- {{ var_dump($key); }}
                     {{ var_dump(count($postData)); }} --}}
                     @if ($editNum-1 === $key)
-                        <span class="user">{{ $post->user }}</span> <span class="postBody">:  </span>
+                        <span class="user"><img src="storage/{{ $upload_image }}" alt="" title="upload_image">{{-- $post->user --}}</span> <span class="postBody">:  </span>
                         <?php /*$qry = $post->id . ',' . $channel;*/ ?>
                         <form method="post" action="{{ route('update', $post) }}">
                             @method('PATCH')
@@ -71,7 +77,7 @@
                             <button type="submit" class="edit edit-btn">編集</button>
                         </form>
                     @else
-                        <span class="user">{{ $post->user }}</span> </span> <span class="postBody">: {{ $post->body }} </span>
+                        <span class="user"><img src="{{asset('images/aaa.png')}}" alt="" title="upload_image">{{-- $post->user --}}</span> </span> <span class="postBody">: {{ $post->body }} </span>
                         <?php /*$qry = $key . ',' . $channel;*/ ?>
                         <a href="{{ route('edit', $key) }}" class="edit"> edit </a>
                     @endif
