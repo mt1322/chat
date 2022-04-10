@@ -77,7 +77,7 @@
                             <button type="submit" class="edit edit-btn">編集</button>
                         </form>
                     @else
-                        <span class="user"><img src="{{asset('images/aaa.png')}}" alt="" title="upload_image">{{-- $post->user --}}</span> </span> <span class="postBody">: {{ $post->body }} </span>
+                        <span class="user"><img src="{{asset('images/aaa.png')}}" alt="" title="upload_image" class="icon">{{-- $post->user --}}</span> <span class="postBody">: {{ $post->body }} </span>
                         <?php /*$qry = $key . ',' . $channel;*/ ?>
                         <a href="{{ route('edit', $key) }}" class="edit"> edit </a>
                     @endif

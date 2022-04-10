@@ -147,6 +147,11 @@ ul {
     /* position: relative; */
 }
 
+.icon {
+    height:65px;
+    margin-left: -10px;
+}
+
 .postBody {
     font-size: 40px;
     padding: -10px;
