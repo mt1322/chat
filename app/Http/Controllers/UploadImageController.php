@@ -19,9 +19,10 @@ class UploadImageController extends Controller
 
 		if($upload_image) {
 			//アップロードされた画像を保存する
-			$path = $upload_image->store('images',"public");
+			$path = $upload_image->store('uploads', 'public');
 			//画像の保存に成功したらDBに記録する
 			if($path){
+                uploadImage::truncate();
 				UploadImage::create([
 					"file_name" => $upload_image->getClientOriginalName(),
 					"file_path" => $path

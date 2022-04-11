@@ -67,7 +67,7 @@
                     {{-- {{ var_dump($key); }}
                     {{ var_dump(count($postData)); }} --}}
                     @if ($editNum-1 === $key)
-                        <span class="user"><img src="storage/{{ $upload_image }}" alt="" title="upload_image">{{-- $post->user --}}</span> <span class="postBody">:  </span>
+                        <span class="iconFrame"><img src="storage/{{ $upload_image }}" alt="" title="upload_image" class="icon">{{-- $post->user --}}</span> <span class="postBody">:  </span>
                         <?php /*$qry = $post->id . ',' . $channel;*/ ?>
                         <form method="post" action="{{ route('update', $post) }}">
                             @method('PATCH')
@@ -77,7 +77,7 @@
                             <button type="submit" class="edit edit-btn">編集</button>
                         </form>
                     @else
-                        <span class="user"><img src="{{asset('images/aaa.png')}}" alt="" title="upload_image" class="icon">{{-- $post->user --}}</span> <span class="postBody">: {{ $post->body }} </span>
+                        <span class="iconFrame"><img src="/storage/{{ $upload_image }}" alt="" title="upload_image" class="icon">{{-- $post->user --}}</span> <span class="postBody">: {{ $post->body }} </span>
                         <?php /*$qry = $key . ',' . $channel;*/ ?>
                         <a href="{{ route('edit', $key) }}" class="edit"> edit </a>
                     @endif
@@ -88,7 +88,8 @@
                         @csrf
                         <button class="delete-btn"> 削除 </button>
                     </form>
-                </li>
+                    <span class="userName"> {{ $post->user }} </span>
+                    </li>
             @empty
                 <h2> Not found </h2>
             @endforelse

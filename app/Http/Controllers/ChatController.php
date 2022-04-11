@@ -92,7 +92,7 @@ class ChatController extends Controller
         $add_msg = session('post');
         $editNum = session('edit');
 
-        $image = UploadImage::find(2);
+        $image = UploadImage::find(1);
         $imagePath = $image->file_path;
 
         // $str_chk = file_get_contents('message_num.txt');

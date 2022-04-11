@@ -136,7 +136,7 @@ ul {
     left: 95%;
 }
 
-.user {
+.iconFrame {
     border: 2px solid #111;
     /* display: inline-block; */
     padding: 4px;
@@ -150,6 +150,13 @@ ul {
 .icon {
     height:65px;
     margin-left: -10px;
+}
+
+.userName {
+    position: absolute;
+    top: 80px;
+    left: 30px;
+    font-size: large;
 }
 
 .postBody {
