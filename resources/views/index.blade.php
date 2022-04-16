@@ -25,13 +25,7 @@
 
         <br>
 
-        <form method="post" action="{{ route('store') }}">
-            @csrf
-            {{-- <!-- <input type="text" name="user" value="{{ old('', '入力してください') }}"> --> --}}
-            <textarea class="submitForm" name="body" value="{{ old('', '入力してください') }}"> </textarea>
 
-            <button class="submitForm-btn" type="submit">送信</button>
-        </form>
 
         <form method="post" action="{{ route('upload_image') }}" enctype="multipart/form-data">
             @csrf
@@ -55,7 +49,7 @@
         </div>
 
     </div>
-    <div class="chat-main">
+    <div id="chat-main">
 
         <ul>
             @forelse ($postData as $key => $post)
@@ -97,13 +91,20 @@
 
     </div>
 
-{{-- </div>
-</div> --}}
+    <div class="chat-footer">
+        <form method="post" action="{{ route('store') }}">
+            @csrf
+            {{-- <!-- <input type="text" name="user" value="{{ old('', '入力してください') }}"> --> --}}
+            <textarea class="submitForm" name="body" value="{{ old('', '入力してください') }}"> </textarea>
 
-    {{-- <script>
-        let target = document.getElementById('scroll-inner');
-        target.scrollIntoView(false);
-    </script> --}}
+            <button class="submitForm-btn" type="submit">送信</button>
+        </form>
+    </div>
+
+    <script>
+        var container = document.getElementById('chat-main');
+        container.scrollIntoView(false); //メッセージが追加されたら自動的に最下部にスクロール
+    </script>
 
 </x-layout>
 
