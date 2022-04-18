@@ -67,7 +67,7 @@
                             @method('PATCH')
                             @csrf
                             {{-- <!-- <textarea name="body" class="editArea" value="{{ $post->body }}"></textarea> --> --}}
-                            <input type="text" name="body" class="editArea" value="{{ old('入力してください', $post->body) }}">
+                            <textarea class="editArea" name="body"> {{ $post->body }} </textarea>
                             <button type="submit" class="edit edit-btn">編集</button>
                         </form>
                     @else
