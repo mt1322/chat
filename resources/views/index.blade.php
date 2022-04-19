@@ -61,17 +61,21 @@
                     {{-- {{ var_dump($key); }}
                     {{ var_dump(count($postData)); }} --}}
                     @if ($editNum-1 === $key)
-                        <span class="iconFrame"><img src="storage/{{ $upload_image }}" alt="" title="upload_image" class="icon">{{-- $post->user --}}</span> <span class="postBody">:  </span>
+                        <span class="iconFrame"><img src="storage/{{ $upload_image }}" alt="" title="upload_image" class="icon">{{-- $post->user --}}</span> <span id="postBody2">: {{ $post->body }} </span>
                         <?php /*$qry = $post->id . ',' . $channel;*/ ?>
                         <form method="post" action="{{ route('update', $post) }}">
                             @method('PATCH')
                             @csrf
                             {{-- <!-- <textarea name="body" class="editArea" value="{{ $post->body }}"></textarea> --> --}}
-                            <textarea class="editArea" name="body"> {{ $post->body }} </textarea>
+                            <textarea id="editArea" name="body" autofocus> {{ $post->body }} </textarea>
+                            <script>
+                                let client_h = document.getElementById('postBody2').clientHeight;
+                                document.getElementById('editArea').style.height = client_h;
+                            </script>
                             <button type="submit" class="edit edit-btn">編集</button>
                         </form>
                     @else
-                        <span class="iconFrame"><img src="/storage/{{ $upload_image }}" alt="" title="upload_image" class="icon">{{-- $post->user --}}</span> <span class="postBody">: {{ $post->body }} </span>
+                        <span class="iconFrame"><img src="/storage/{{ $upload_image }}" alt="" title="upload_image" class="icon">{{-- $post->user --}}</span> <span id="postBody">: {{ $post->body }} </span>
                         <?php /*$qry = $key . ',' . $channel;*/ ?>
                         <a href="{{ route('edit', $key) }}" class="edit"> edit </a>
                     @endif
@@ -102,7 +106,7 @@
     </div>
 
     <script>
-        var container = document.getElementById('chat-main');
+        let container = document.getElementById('chat-main');
         container.scrollIntoView(false); //メッセージが追加されたら自動的に最下部にスクロール
     </script>
 
