@@ -111,6 +111,10 @@ class ChatController extends Controller
 
     public function store(Request $request){
         // $message = new Message();
+        $request->validate([
+            'body' => 'required',
+        ]);
+
         $channel = session('channel');
         $message = MessageData::setData(session('channelList')[$channel]);
         $message->user = Auth::user()->name;
@@ -134,6 +138,10 @@ class ChatController extends Controller
     }
 
     public function update(Request $request, Int $messageId){
+        $request->validate([
+            'body' => 'required',
+        ]);
+
         $channel = session('channel');
         $message = MessageData::findData(session('channelList')[$channel], $messageId);
         $message->body = $request->body;
@@ -160,6 +168,10 @@ class ChatController extends Controller
         // file_put_contents('channel_num.txt', $num+1);
         // $channelNum = filter_input(INPUT_COOKIE, 'channelNum');
         // setcookie('channelNum', $channelNum+1);
+        $request->validate([
+            'channelName' => 'required',
+        ]);
+
         if (session('channelNum') == 0)
             session(['channelName' => array()]);
 
