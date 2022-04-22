@@ -217,3 +217,11 @@ button {
     width: 100%;
     border-bottom: 2px solid #000;
 }
+
+.error {
+    color: fff;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

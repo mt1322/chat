@@ -113,6 +113,9 @@ class ChatController extends Controller
         // $message = new Message();
         $request->validate([
             'body' => 'required',
+        ],
+        [
+            'body.required' => 'メッセージを入力してください',
         ]);
 
         $channel = session('channel');
@@ -140,6 +143,9 @@ class ChatController extends Controller
     public function update(Request $request, Int $messageId){
         $request->validate([
             'body' => 'required',
+        ],
+        [
+            'body.required' => 'メッセージを入力してください',
         ]);
 
         $channel = session('channel');
@@ -170,6 +176,9 @@ class ChatController extends Controller
         // setcookie('channelNum', $channelNum+1);
         $request->validate([
             'channelName' => 'required',
+        ],
+        [
+            'channelName.required' => 'チャンネル名を入力してください',
         ]);
 
         if (session('channelNum') == 0)

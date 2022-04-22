@@ -32,6 +32,12 @@
 	        <input type="file" name="image" accept="image/png, image/jpeg">/>
 	        <input type="submit" value="Upload">
         </form>
+        @error('channelName')
+            <span class="error"> {{ $message }} </span>
+        @enderror
+        @error('body')
+            <span class="error"> {{ $message }} </span>
+        @enderror
 
         <div class="channelTabss">
         @for ($i = 0; $i < $channelNum; $i++)
