@@ -32,7 +32,7 @@
 	        <input type="file" name="image" accept="image/png, image/jpeg">/>
 	        <input type="submit" value="Upload">
         </form>
-        @error('channelName')
+        @error('newChannel')
             <span class="error"> {{ $message }} </span>
         @enderror
         @error('body')

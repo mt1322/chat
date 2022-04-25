@@ -175,10 +175,10 @@ class ChatController extends Controller
         // $channelNum = filter_input(INPUT_COOKIE, 'channelNum');
         // setcookie('channelNum', $channelNum+1);
         $request->validate([
-            'channelName' => 'required',
+            'newChannel' => 'required',
         ],
         [
-            'channelName.required' => 'チャンネル名を入力してください',
+            'newChannel.required' => 'チャンネル名を入力してください',
         ]);
 
         if (session('channelNum') == 0)
