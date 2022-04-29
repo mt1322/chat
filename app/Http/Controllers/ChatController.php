@@ -12,6 +12,8 @@ use App\Models\Message5;
 use App\Models\Store;
 use App\Models\User;
 use App\Models\UploadImage;
+use App\Http\Requests\PostRequest;
+use App\Http\Requests\ChannelRequest;
 
 class MessageData
 {
@@ -109,14 +111,14 @@ class ChatController extends Controller
             ->with(['channel' => $channel, 'channelNum' => $channelNum, 'channelName' => $channelName, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum, 'upload_image' => $imagePath]);
     }
 
-    public function store(Request $request){
+    public function store(PostRequest $request){
         // $message = new Message();
-        $request->validate([
-            'body' => 'required',
-        ],
-        [
-            'body.required' => 'メッセージを入力してください',
-        ]);
+        // $request->validate([
+        //     'body' => 'required',
+        // ],
+        // [
+        //     'body.required' => 'メッセージを入力してください',
+        // ]);
 
         $channel = session('channel');
         $message = MessageData::setData(session('channelList')[$channel]);
@@ -140,13 +142,13 @@ class ChatController extends Controller
             ->route('index');
     }
 
-    public function update(Request $request, Int $messageId){
-        $request->validate([
-            'body' => 'required',
-        ],
-        [
-            'body.required' => 'メッセージを入力してください',
-        ]);
+    public function update(PostRequest $request, Int $messageId){
+        // $request->validate([
+        //     'body' => 'required',
+        // ],
+        // [
+        //     'body.required' => 'メッセージを入力してください',
+        // ]);
 
         $channel = session('channel');
         $message = MessageData::findData(session('channelList')[$channel], $messageId);
@@ -169,17 +171,17 @@ class ChatController extends Controller
             ->route('index');
     }
 
-    public function add(Request $request){
+    public function add(ChannelRequest $request){
         // $num = file_get_contents('channel_num.txt');
         // file_put_contents('channel_num.txt', $num+1);
         // $channelNum = filter_input(INPUT_COOKIE, 'channelNum');
         // setcookie('channelNum', $channelNum+1);
-        $request->validate([
-            'newChannel' => 'required',
-        ],
-        [
-            'newChannel.required' => 'チャンネル名を入力してください',
-        ]);
+        // $request->validate([
+        //     'newChannel' => 'required',
+        // ],
+        // [
+        //     'newChannel.required' => 'チャンネル名を入力してください',
+        // ]);
 
         if (session('channelNum') == 0)
             session(['channelName' => array()]);
