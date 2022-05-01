@@ -114,6 +114,18 @@
     <script>
         let container = document.getElementById('chat-main');
         container.scrollIntoView(false); //メッセージが追加されたら自動的に最下部にスクロール
+
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+
+                if (!confirm('削除しますか？')) {
+                    return;
+                }
+
+                form.submit();
+            });
+        });
     </script>
 
 </x-layout>
