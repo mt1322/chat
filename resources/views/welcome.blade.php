@@ -7,10 +7,10 @@
     use App\Models\Store;
 
     $channelStore = Store::find(1);
-    session(['channel' => 0]);
+    session(['channel' => 0]); //最初のchannel (配列の0番目) を表示させる
     session(['channelNum' => $channelStore->channelNum]);
-    session(['channelName' => explode(",", $channelStore->channelName)]);
-    session(['channelList' => explode(",", $channelStore->channelList)]);
+    session(['channelName' => explode(",", $channelStore->channelName)]); //カンマ区切りで保存されているチャンネル名を配列に
+    session(['channelList' => explode(",", $channelStore->channelList)]); //カンマ区切りで保存されているチャンネルの順番を配列に
     // session(['channelPostList' => array(new Message(), new Message2())]);
 ?>
 

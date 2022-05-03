@@ -17,6 +17,7 @@ use App\Http\Requests\ChannelRequest;
 
 class MessageData
 {
+    /* 指定された Message の全データを取得する */
     public static function getData($id) {
         $dataList = array(Message::all(),
                           Message2::all(),
@@ -24,19 +25,10 @@ class MessageData
                           Message4::all(),
                           Message5::all());
 
-        // switch($id) {
-        //     case 0:
-        //         $data = Message::all();
-        //         break;
-        //     case 1:
-        //         $data = Message2::all();
-        //         break;
-        //     default:
-        //         break;
-        // }
         return $dataList[$id];
     }
 
+    /* 指定された Message の messageId 番目のデータを取得する */
     public static function findData($id, $messageId) {
         $dataList = array(Message::find($messageId),
                           Message2::find($messageId),
@@ -47,6 +39,7 @@ class MessageData
         return $dataList[$id];
     }
 
+    /* 指定された空の Message を取得する */
     public static function setData($id) {
         $dataList = array(new Message(),
                           new Message2(),
@@ -63,170 +56,134 @@ class ChatController extends Controller
 {
     public function start() {
 
-
         return view('start');
     }
 
+    /* 通常表示 */
     public function index() {
-
-        // $id = filter_input(INPUT_COOKIE, 'channel');
-        // $id = file_get_contents('channel_num.txt');
-        // $chanelNum = filter_input(INPUT_COOKIE, 'channelNum');
-        $channel = session('channel');
-        $channelNum = session('channelNum');
-        $channelName = session('channelName');
+        $channel = session('channel');                      //表示するチャンネル
+        $channelNum = session('channelNum');                //チャンネルの個数
+        $channelName = session('channelName');              //チャンネル名
 
         $stores = Store::find(1);
-        $strName = implode(",", session('channelName'));
+        $strName = implode(",", session('channelName'));    //配列をカンマ区切りの文字列に変換してデータベースに登録
         $strList = implode(",", session('channelList'));
         $stores->channelNum = $channelNum;
         $stores->channelName = $strName;
         $stores->channelList = $strList;
         $stores->save();
 
-        if ($channelNum == 0)
+        if ($channelNum == 0)                               //チャンネルが削除されて0個になった場合 start に遷移
             return view('start');
-        // print_r(session('channelList'));
 
-        // $posts = Message::all();
-        // $posts = MessageData::getData($channel);
         $posts = MessageData::getData(session('channelList')[$channel]);
-        $add_msg = session('post');
-        $editNum = session('edit');
-
-        $image = UploadImage::find(1);
-        $imagePath = $image->file_path;
-
-        // $str_chk = file_get_contents('message_num.txt');
-        // if ($str_chk === 'add') {
-        //     $add_msg = true;
-        // }
-        // else if (is_numeric($str_chk))
-        //     $editNum = $str_chk;
-
+        $add_msg = session('post');                         //メッセージ追加時のアニメーション用
+        $editNum = session('edit');                         //何番目のメッセージを編集しているか
         session(['post' => false]);
         session(['edit' => 0]);
 
+        $image = UploadImage::find(1);
+        $imagePath = $image->file_path;                     //アップロードされた画像のパスを読み出す
+
         return view('index')
-            ->with(['channel' => $channel, 'channelNum' => $channelNum, 'channelName' => $channelName, 'postData' => $posts, 'add_message' => $add_msg, 'editNum' => $editNum, 'upload_image' => $imagePath]);
+            ->with(['channel' => $channel,
+                    'channelNum' => $channelNum,
+                    'channelName' => $channelName,
+                    'postData' => $posts,
+                    'add_message' => $add_msg,
+                    'editNum' => $editNum,
+                    'upload_image' => $imagePath]);
     }
 
+    /* 送信されたメッセージの追加 */
     public function store(PostRequest $request){
-        // $message = new Message();
-        // $request->validate([
-        //     'body' => 'required',
-        // ],
-        // [
-        //     'body.required' => 'メッセージを入力してください',
-        // ]);
-
         $channel = session('channel');
         $message = MessageData::setData(session('channelList')[$channel]);
-        $message->user = Auth::user()->name;
+        $message->user = Auth::user()->name;                //ユーザ名を取り出す
         $message->body = $request->body;
         $message->save();
 
-        // file_put_contents('message_num.txt', 'add');
-        session(['post' => true]);
+        session(['post' => true]);                          //アニメーション実行
 
         return redirect()
             ->route('index');
     }
 
+    /* 一部メッセージのみ編集できるようにするための メッセージid の特定 */
     public function edit(Int $num){
-        // $getNum = explode(",", $num);
-        // file_put_contents('message_num.txt', $num+1);
-        session(['edit' => $num+1]);
+        session(['edit' => $num+1]);                        //何番目のメッセージを編集しているか
 
         return redirect()
             ->route('index');
     }
 
+    /* メッセージの編集 */
     public function update(PostRequest $request, Int $messageId){
-        // $request->validate([
-        //     'body' => 'required',
-        // ],
-        // [
-        //     'body.required' => 'メッセージを入力してください',
-        // ]);
-
         $channel = session('channel');
         $message = MessageData::findData(session('channelList')[$channel], $messageId);
         $message->body = $request->body;
         $message->save();
 
-
         return redirect()
             ->route('index');
     }
 
+    /* メッセージの削除 */
     public function destroy(Int $messageId){
         $channel = session('channel');
         $message = MessageData::findData(session('channelList')[$channel], $messageId);
 
-        // $message = Message3::find($messageId);
         $message->delete();
 
         return redirect()
             ->route('index');
     }
 
+    /* チャンネルの追加 */
     public function add(ChannelRequest $request){
-        // $num = file_get_contents('channel_num.txt');
-        // file_put_contents('channel_num.txt', $num+1);
-        // $channelNum = filter_input(INPUT_COOKIE, 'channelNum');
-        // setcookie('channelNum', $channelNum+1);
-        // $request->validate([
-        //     'newChannel' => 'required',
-        // ],
-        // [
-        //     'newChannel.required' => 'チャンネル名を入力してください',
-        // ]);
-
-        if (session('channelNum') == 0)
+        if (session('channelNum') == 0)                     //チャンネルが一つも無い場合、空の配列で初期化
             session(['channelName' => array()]);
 
-        if (session('channelNum') < 5)
+        if (session('channelNum') < 5)                      //チャンネル数が最大でない場合、チャンネル数を増やす
             session(['channelNum' => session('channelNum')+1]);
 
         $names = session('channelName');
-        array_push($names, $request->newChannel);
+        array_push($names, $request->newChannel);           //入力されたチャンネル名を配列の末尾に追加
         session(['channelName' => $names]);
 
         return redirect()
             ->route('index');
     }
 
+    /* チャンネルの移動 */
     public function change(Int $id){
-        // $channel = filter_input(INPUT_COOKIE, 'channel');
-        // setcookie('channel', $channel+1);
-        // file_put_contents('channel_num.txt', $id);
-        session(['channel' => $id ]);
-
+        session(['channel' => $id ]);                       //移動先のチャンネルの id に変更
 
         return redirect()
             ->route('index');
     }
 
+
     public function destroyChannelCommon(Int $channelId) {
         $channelList = session('channelList');
-        $deleteChannel = array_splice($channelList, $channelId, 1)[0];
-        array_push($channelList, $deleteChannel);
+        $deleteChannel = array_splice($channelList, $channelId, 1)[0];  //指定されたチャンネルの順番を取り出す
+        array_push($channelList, $deleteChannel);                       //削除するチャンネルを配列の末尾に移動
         session(['channelList' => $channelList]);
-        session(['channelNum' => session('channelNum')-1]);
+        session(['channelNum' => session('channelNum')-1]);             //チャンネル数-1
 
         $names = session('channelName');
-        array_splice($names, $channelId, 1);
+        array_splice($names, $channelId, 1);                            //チャンネル名を配列から削除
         session(['channelName' =>  $names]);
 
         $posts = MessageData::getData($deleteChannel);
-        foreach($posts as $post) {
+        foreach($posts as $post) {                                      //メッセージを全件削除する
             $post->delete();
         }
 
         return;
     }
 
+    /* チャンネルの削除(表示しているチャンネル以外) */
     public function destroyChannel(Int $channelId){
         $this->destroyChannelCommon($channelId);
 
@@ -234,10 +191,10 @@ class ChatController extends Controller
             ->route('index');
     }
 
+    /* チャンネルの削除(表示しているチャンネル) */
     public function destroyOwnChannel(Int $channelId){
         $channel = session('channel');
-        // if ($channel > 0 || $channel == 0 && session('channelNum') > 1)
-        session(['channel' => 0]);
+        session(['channel' => 0]);                             //一番左端のタブのチャンネルに移動する(最後のチャンネルを参照している場合、エラーになるため)
 
         $this->destroyChannelCommon($channelId);
 
