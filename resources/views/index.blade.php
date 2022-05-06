@@ -57,6 +57,12 @@
 
         <ul>
             @forelse ($postData as $key => $post)
+                <div class="time-label">
+                    <span class="created"> {{ str_replace('-', '/', $post->created_at) }} </span>
+                    @if ($post->created_at != $post->updated_at) {{-- 編集した場合のみ表示 --}}
+                        <span class="created"> 編集済み </span>
+                    @endif
+                </div>
                 @if ($add_message && $key === count($postData)-1) {{-- メッセージが送信された時に一番下のメッセージのみアニメーションを実行 --}}
                     <li class="message-list new-message">
                 @else

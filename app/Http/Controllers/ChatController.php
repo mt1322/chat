@@ -92,7 +92,8 @@ class ChatController extends Controller
                     'postData' => $posts,
                     'add_message' => $add_msg,
                     'editNum' => $editNum,
-                    'upload_image' => $imagePath]);
+                    'upload_image' => $imagePath]
+                );
     }
 
     /* 送信されたメッセージの追加 */
