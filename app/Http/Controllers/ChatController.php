@@ -77,10 +77,10 @@ class ChatController extends Controller
             return view('start');
 
         $posts = MessageData::getData(session('channelList')[$channel]);
-        $add_msg = session('post');                         //メッセージ追加時のアニメーション用
         $editNum = session('edit');                         //何番目のメッセージを編集しているか
-        session(['post' => false]);
+        $messageFlag = session('flag');                     //メッセージ表示用フラグ
         session(['edit' => 0]);
+        session(['flag' => 'null']);
 
         $image = UploadImage::find(1);
         $imagePath = $image->file_path;                     //アップロードされた画像のパスを読み出す
@@ -90,7 +90,7 @@ class ChatController extends Controller
                     'channelNum' => $channelNum,
                     'channelName' => $channelName,
                     'postData' => $posts,
-                    'add_message' => $add_msg,
+                    'flag' => $messageFlag,
                     'editNum' => $editNum,
                     'upload_image' => $imagePath]
                 );
@@ -104,7 +104,7 @@ class ChatController extends Controller
         $message->body = $request->body;
         $message->save();
 
-        session(['post' => true]);                          //アニメーション実行
+        session(['flag' => 'store']);                       //アニメーション実行
 
         return redirect()
             ->route('index');
@@ -125,6 +125,8 @@ class ChatController extends Controller
         $message->body = $request->body;
         $message->save();
 
+        session(['flag' => 'update']);                       //アニメーション実行
+
         return redirect()
             ->route('index');
     }
@@ -135,6 +137,8 @@ class ChatController extends Controller
         $message = MessageData::findData(session('channelList')[$channel], $messageId);
 
         $message->delete();
+
+        session(['flag' => 'delete']);                       //アニメーション実行
 
         return redirect()
             ->route('index');

@@ -1,12 +1,3 @@
-/* .scroll{
-    overflow-y: scroll;
-    height: 1500px;
-}
-
-#scroll-inner{
-    height: 2000px;
-} */
-
 ul {
     list-style-type: none;
 }
@@ -228,10 +219,33 @@ button {
     border-bottom: 2px solid #000;
 }
 
-.error {
-    color: fff;
+.popup {
+    width: 300px;
+    padding: 10px 20px;
+    background: #fff;
     font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    border-radius: 4px;
+    box-shadow: 12px 12px 4px rgba(0, 0, 0, .5);
+    position: fixed;
+    left: calc(50% - 150px);
+    top: -20px;
+
+    animation: popup 4s forwards;
+  }
+
+  @keyframes popup {
+    0% {
+      transform: translateY(-15px);
+      opacity: 0;
+      animation-timing-function: ease-out;
+    }
+    20%, 80% {
+      transform: none;
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-15px);
+      opacity: 0;
+      pointer-events: none;
+    }
+  }

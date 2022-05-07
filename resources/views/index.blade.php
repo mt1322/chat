@@ -4,6 +4,21 @@
     </x-slot>
 
     <div class="chat-header">
+        {{-- メッセージの表示 --}}
+        @if ($flag === 'store')
+            <p class="popup">送信完了</p>
+        @elseif ($flag === 'update')
+            <p class="popup">更新完了</p>
+        @elseif ($flag === 'delete')
+            <p class="popup">削除完了</p>
+        @endif
+        {{-- バリデーションエラーの表示 --}}
+        @error('newChannel')
+            <p class="popup"> {{ $message }} </p>
+        @enderror
+        @error('body')
+            <p class="popup"> {{ $message }} </p>
+        @enderror
         <h1> Chat </h1>
         <h2 class="channelName"> {{ session('channelName')[$channel] }} </h2>
         {{-- 表示中のチャンネルを削除する --}}
@@ -28,13 +43,6 @@
 	        <input type="file" name="image" accept="image/png, image/jpeg">/>
 	        <input type="submit" value="Upload">
         </form>
-        {{-- バリデーションエラーの表示 --}}
-        @error('newChannel')
-            <span class="error"> {{ $message }} </span>
-        @enderror
-        @error('body')
-            <span class="error"> {{ $message }} </span>
-        @enderror
 
         {{-- チャンネル切り替え用タブ --}}
         <div class="channelTabss">
@@ -63,7 +71,7 @@
                         <span class="created"> 編集済み </span>
                     @endif
                 </div>
-                @if ($add_message && $key === count($postData)-1) {{-- メッセージが送信された時に一番下のメッセージのみアニメーションを実行 --}}
+                @if ($flag === 'store' && $key === count($postData)-1) {{-- メッセージが送信された時に一番下のメッセージのみアニメーションを実行 --}}
                     <li class="message-list new-message">
                 @else
                     <li class="message-list">
