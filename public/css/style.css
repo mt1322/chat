@@ -16,12 +16,6 @@ ul {
     border-bottom: 5px solid #00f;
 }
 
-.submitForm {
-    width:80%;
-    height: 40px;
-    font-size: 30px;
-}
-
 .channelTabss {
     display: flex;
 }
@@ -73,10 +67,6 @@ ul {
     width: 90%;
     margin-top: 40px;
     position: relative;
-    /* animation-name: updateMessage;
-    animation-duration: 1s;
-    animation-timing-function: ease-in-out;
-    animation-fill-mode: forwards; */
 }
 
 .new-message{
@@ -85,17 +75,6 @@ ul {
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
-
-/* @keyframes updateMessage{
-    0% {
-        opacity: 0.2;
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(25px);
-    }
-} */
 
 @keyframes newMessage{
     0% {
@@ -209,6 +188,12 @@ button {
     left: 80px;
 }
 
+.submitForm {
+    width: 80%;
+    height: 40px;
+    font-size: 30px;
+}
+
 .chat-footer {
     position: absolute;
     position: fixed;
@@ -247,5 +232,39 @@ button {
       transform: translateY(-15px);
       opacity: 0;
       pointer-events: none;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .message-list {
+        width: 420px;
+        margin: 40px auto 0 auto;
+    }
+
+    .submitForm {
+        width: 80%;
+        height: 80px;
+        font-size: 30px;
+    }
+
+    .submitForm-btn {
+        padding: 10px;
+        align-self: center;
+        height: 80%;
+    }
+
+    .footerForm  {
+        display: flex;
+    }
+
+    .chat-footer {
+        position: absolute;
+        position: fixed;
+        bottom: 0;
+        background-color: #777;
+        z-index: 99;
+        width: 100%;
+        border-bottom: 2px solid #000;
+        height: 100px;
     }
   }

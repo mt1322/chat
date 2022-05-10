@@ -113,9 +113,10 @@
     <div class="chat-footer">
         <form method="post" action="{{ route('store') }}">
             @csrf
-            <textarea class="submitForm" name="body" value="{{ old('', '入力してください') }}"> </textarea>
-
-            <button class="submitForm-btn" type="submit">送信</button>
+            <div class="footerForm">
+                <textarea class="submitForm" name="body" value="{{ old('', '入力してください') }}"> </textarea>
+                <button class="submitForm-btn" type="submit">送信</button>
+            </div>
         </form>
     </div>
 
