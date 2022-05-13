@@ -16,6 +16,12 @@ ul {
     border-bottom: 5px solid #00f;
 }
 
+.logout {
+    position: absolute;
+    top: 15px;
+    right: 1%;
+}
+
 .channelTabss {
     display: flex;
 }

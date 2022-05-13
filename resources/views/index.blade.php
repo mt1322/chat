@@ -27,6 +27,15 @@
             @csrf
             <button class="delete-btn"> チャンネル削除 </button>
         </form>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+
+            <x-responsive-nav-link :href="route('logout')"
+                    onclick="event.preventDefault();
+                                this.closest('form').submit();">
+                <button class="logout">{{ __('Log Out') }}</button>
+            </x-responsive-nav-link>
+        </form>
 
         {{-- チャンネル追加ボタン --}}
         <form method="post" action="{{ route('add') }}">
