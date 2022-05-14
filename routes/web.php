@@ -18,16 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 require __DIR__.'/auth.php';
 
 Route::get('/start', [ChatController::class, 'start'])
     ->name('start');
 
 Route::get('/chat', [ChatController::class, 'index'])
+    ->middleware(['auth'])
     ->name('index');
 
 Route::post('/post', [ChatController::class, 'store'])

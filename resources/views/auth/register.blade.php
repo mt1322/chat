@@ -7,7 +7,12 @@
         </x-slot>
 
         <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <x-auth-validation-errors class="mb-4" :errors="$errors">
+            <x-slot name="message">
+                {{ __('Register Failed') }}
+            </x-slot>
+        </x-auth-validation-errors>
+
 
         <form method="POST" action="{{ route('register') }}">
             @csrf

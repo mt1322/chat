@@ -10,7 +10,11 @@
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <x-auth-validation-errors class="mb-4" :errors="$errors">
+            <x-slot name="message">
+                {{ __('Log in Failed') }}
+            </x-slot>
+        </x-auth-validation-errors>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
