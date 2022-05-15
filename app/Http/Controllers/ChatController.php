@@ -82,12 +82,11 @@ class ChatController extends Controller
         session(['edit' => 0]);
         session(['flag' => 'null']);
 
-        $userName = Auth::user()->name;
-        if(UploadImage::where('user', $userName)->exists())//画像ファイルが存在する場合
-            $image = UploadImage::where('user', $userName)->first();
-        else                                               //画像ファイルがアップロードされていない場合(デフォルト画像の表示)
-            $image = UploadImage::find(1);
-        $imagePath = $image->file_path;                    //アップロードされた画像のパスを読み出す
+        $images = UploadImage::all();
+        $imageArray = array();
+        foreach ($images as $image) {                       //ユーザごとのアイコン画像のパスを連想配列に格納
+            $imageArray += array($image->user => $image->file_path);
+        }
 
         return view('index')
             ->with(['channel' => $channel,
@@ -96,7 +95,7 @@ class ChatController extends Controller
                     'postData' => $posts,
                     'flag' => $messageFlag,
                     'editNum' => $editNum,
-                    'upload_image' => $imagePath]
+                    'upload_image' => $imageArray]
                 );
     }
 

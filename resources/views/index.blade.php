@@ -87,7 +87,11 @@
                 @endif
 
                     @if ($editNum-1 === $key) {{-- 編集対象のメッセージに textarea を適用 --}}
-                        <span class="iconFrame"> <img src="storage/{{ $upload_image }}" alt="" title="upload_image" class="icon"> </span> <span id="postBody2">: {{ $post->body }} </span>
+                        @if (array_key_exists($post->user, $upload_image)) {{-- 既に画像ファイルがアップロードされている場合 --}}
+                            <span class="iconFrame"> <img src="storage/{{ $upload_image[$post->user] }}" alt="" title="upload_image" class="icon"> </span> <span id="postBody2">: {{ $post->body }} </span>
+                        @else
+                            <span class="iconFrame"> <img src="storage/{{ $upload_image["default"] }}" alt="" title="upload_image" class="icon"> </span> <span id="postBody2">: {{ $post->body }} </span>
+                        @endif
                         <form method="post" action="{{ route('update', $post) }}">
                             @method('PATCH')
                             @csrf
@@ -99,7 +103,11 @@
                             <button type="submit" class="edit edit-btn">更新</button>
                         </form>
                     @else
-                        <span class="iconFrame"> <img src="storage/{{ $upload_image }}" alt="" title="upload_image" class="icon"> </span> <span id="postBody">: {{ $post->body }} </span>
+                        @if (array_key_exists($post->user, $upload_image)) {{-- 既に画像ファイルがアップロードされている場合 --}}
+                            <span class="iconFrame"> <img src="storage/{{ $upload_image[$post->user] }}" alt="" title="upload_image" class="icon"> </span> <span id="postBody">: {{ $post->body }} </span>
+                        @else
+                            <span class="iconFrame"> <img src="storage/{{ $upload_image["default"] }}" alt="" title="upload_image" class="icon"> </span> <span id="postBody">: {{ $post->body }} </span>
+                        @endif
                         <a href="{{ route('edit', $key) }}" class="edit"> edit </a>
                     @endif
 
