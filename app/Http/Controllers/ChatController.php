@@ -82,8 +82,12 @@ class ChatController extends Controller
         session(['edit' => 0]);
         session(['flag' => 'null']);
 
-        $image = UploadImage::find(1);
-        $imagePath = $image->file_path;                     //アップロードされた画像のパスを読み出す
+        $userName = Auth::user()->name;
+        if(UploadImage::where('user', $userName)->exists())//画像ファイルが存在する場合
+            $image = UploadImage::where('user', $userName)->first();
+        else                                               //画像ファイルがアップロードされていない場合(デフォルト画像の表示)
+            $image = UploadImage::find(1);
+        $imagePath = $image->file_path;                    //アップロードされた画像のパスを読み出す
 
         return view('index')
             ->with(['channel' => $channel,

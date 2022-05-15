@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\UploadImage;
 
@@ -27,13 +28,22 @@ class UploadImageController extends Controller
 			$path = $upload_image->store('uploads', 'public');
 			//画像の保存に成功したらDBに記録する
 			if($path){
-                uploadImage::truncate();
-				UploadImage::create([
-					"file_name" => $upload_image->getClientOriginalName(),
-					"file_path" => $path
-				]);
+                $userName = Auth::user()->name;
+                if(UploadImage::where('user', $userName)->exists()) {  //既にユーザのアイコンが存在する場合
+                    UploadImage::where('user', $userName)
+                        ->update([
+                            'file_name' => $upload_image->getClientOriginalName(),
+                            "file_path" => $path
+                        ]);
+                }
+                else { //アイコンが登録されていない場合
+                    UploadImage::create([
+                        "file_name" => $upload_image->getClientOriginalName(),
+                        "file_path" => $path,
+                        "user" => $userName
+                    ]);
+                }
 			}
-
 		}
 		return redirect("/chat");
 	}
