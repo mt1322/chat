@@ -108,15 +108,19 @@
                         @else
                             <span class="iconFrame"> <img src="storage/{{ $upload_image["default"] }}" alt="" title="upload_image" class="icon"> </span> <span id="postBody">: {{ $post->body }} </span>
                         @endif
-                        <a href="{{ route('edit', $key) }}" class="edit"> edit </a>
+                        @if ($login_user === $post->user) {{-- 自分以外のユーザのメッセージを編集できないようにする --}}
+                            <a href="{{ route('edit', $key) }}" class="edit"> edit </a>
+                        @endif
                     @endif
 
                     {{-- メッセージ削除 --}}
-                    <form method="post" action="{{ route('destroy', $post) }}" class="delete-form">
-                        @method('DELETE')
-                        @csrf
-                        <button class="delete-btn"> 削除 </button>
-                    </form>
+                    @if ($login_user === $post->user) {{-- 自分以外のユーザのメッセージを削除できないようにする --}}
+                       <form method="post" action="{{ route('destroy', $post) }}" class="delete-form">
+                            @method('DELETE')
+                            @csrf
+                            <button class="delete-btn"> 削除 </button>
+                        </form>
+                    @endif
                     <span class="userName"> {{ $post->user }} </span>
                     </li>
             @empty {{-- メッセージが何も無い時 --}}

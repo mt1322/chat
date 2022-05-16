@@ -95,7 +95,8 @@ class ChatController extends Controller
                     'postData' => $posts,
                     'flag' => $messageFlag,
                     'editNum' => $editNum,
-                    'upload_image' => $imageArray]
+                    'upload_image' => $imageArray,
+                    'login_user' => Auth::user()->name]
                 );
     }
 
