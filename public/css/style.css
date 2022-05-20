@@ -75,7 +75,11 @@ ul {
     position: relative;
 }
 
-.new-message{
+.own-message {
+    background-color: hsla(200, 50%, 60%, 0.3);
+}
+
+.new-message {
     animation-name: newMessage;
     animation-duration: 3s;
     animation-timing-function: ease-in-out;
@@ -127,6 +131,7 @@ ul {
 
 .iconFrame {
     border: 2px solid #111;
+    background-color: white;
     padding: 4px;
     width: 4%;
     height: 65px;

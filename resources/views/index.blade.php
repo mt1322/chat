@@ -82,6 +82,8 @@
                 </div>
                 @if ($flag === 'store' && $key === count($postData)-1) {{-- メッセージが送信された時に一番下のメッセージのみアニメーションを実行 --}}
                     <li class="message-list new-message">
+                @elseif ($login_user === $post->user)
+                    <li class="message-list own-message">
                 @else
                     <li class="message-list">
                 @endif
